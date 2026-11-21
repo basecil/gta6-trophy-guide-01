@@ -647,7 +647,7 @@ html[data-theme='parchment'] .btn-primary { color: #fff8f0; }
 .rail-item.is-done { border-color: var(--good-soft); background: var(--good-soft); }
 .rail-k { font-family: var(--mono); font-size: 10px; color: var(--muted-2); letter-spacing: 0.1em; }
 .rail-t { display: block; font-family: var(--serif); font-size: 14.5px; margin: 2px 0 7px; }
-.rail-bar { height: 4px; border-radius: 99px; background: var(--panel-3); overflow: hidden; }
+.rail-bar { display: block; height: 4px; border-radius: 99px; background: var(--panel-3); overflow: hidden; }
 .rail-bar > i { display: block; height: 100%; background: var(--accent); }
 .rail-n { display: block; margin-top: 5px; font-size: 10.5px; color: var(--muted); font-family: var(--mono); }
 
