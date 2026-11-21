@@ -1,25 +1,300 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="night">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>GTA VI trophy checklist</title>
+<title>Leonida Ledger — GTA VI trophy guide</title>
+<meta name="description" content="An offline trophy guide for Grand Theft Auto VI: all 55 trophies, a five-stage platinum roadmap, missables, counters and a next-up planner.">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header>
-  <h1>GTA VI trophy checklist</h1>
-  <p id="progress">0 of 55 earned</p>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark" aria-hidden="true">VI</span>
+    <div class="brand-text">
+      <h1>Leonida Ledger</h1>
+      <p>Grand Theft Auto VI &middot; trophy guide &amp; roadmap</p>
+    </div>
+  </div>
+
+  <div class="headline">
+    <div class="earned-big" aria-hidden="true"><span id="earnedCount">0</span><span class="earned-of">/55</span></div>
+    <div class="headline-meta">
+      <div class="headline-label">trophies earned</div>
+      <div class="bar bar-wide"><i id="headerBar" style="width:0%"></i></div>
+      <div class="headline-sub" id="headerSub">Loading the list&hellip;</div>
+    </div>
+  </div>
+
+  <div class="stage-strip" id="stageStrip" aria-label="Roadmap stage progress">
+    <span class="strip-label">Roadmap</span>
+  </div>
+
+  <div class="platinum-chip" id="platinumChip" title="The platinum unlocks when the other 54 trophies are earned">
+    <span class="medal medal-platinum" aria-hidden="true"></span>
+    <span id="platinumText">Platinum locked</span>
+  </div>
 </header>
-<div class="controls">
-  <label>Grade <select id="grade"><option value="all">All</option><option value="platinum">Platinum</option><option value="gold">Gold</option><option value="silver">Silver</option><option value="bronze">Bronze</option></select></label>
-  <button id="export" type="button">Export progress</button>
-  <label class="import">Import progress <input id="import" type="file" accept="application/json"></label>
-</div>
-<table>
-  <thead><tr><th>Earned</th><th>Trophy</th><th>Grade</th><th>How to get it</th></tr></thead>
-  <tbody id="rows"></tbody>
-</table>
+
+<nav class="tabs" aria-label="Guide sections">
+  <button type="button" class="tab" data-view="checklist" aria-current="page">Checklist <span class="tab-n">55</span></button>
+  <button type="button" class="tab" data-view="roadmap">Roadmap <span class="tab-n">5</span></button>
+  <button type="button" class="tab" data-view="missables">Missables <span class="tab-n" id="missableTabN" title="Still to earn">9</span></button>
+  <button type="button" class="tab" data-view="planner">Next up</button>
+  <button type="button" class="tab" data-view="settings">Settings</button>
+  <span class="tab-spacer"></span>
+  <button type="button" class="keyhint" id="shortcutBtn" aria-haspopup="dialog">Shortcuts <kbd>?</kbd></button>
+</nav>
+
+<main id="main" class="shell">
+
+  <section class="view" id="view-checklist" aria-label="Trophy checklist">
+    <div class="toolbar">
+      <div class="tb-row">
+        <div class="search-wrap">
+          <span class="search-icon" aria-hidden="true">&#9906;</span>
+          <input id="search" type="search" placeholder="Search trophies, guides, kinds" autocomplete="off" spellcheck="false" aria-label="Search trophies">
+          <kbd class="search-kbd">/</kbd>
+        </div>
+        <label class="field"><span>Grade</span>
+          <select id="gradeFilter">
+            <option value="all">All</option>
+            <option value="platinum">Platinum</option>
+            <option value="gold">Gold</option>
+            <option value="silver">Silver</option>
+            <option value="bronze">Bronze</option>
+          </select>
+        </label>
+        <label class="field"><span>Status</span>
+          <select id="statusFilter">
+            <option value="all">All</option>
+            <option value="remaining">Remaining</option>
+            <option value="earned">Earned</option>
+          </select>
+        </label>
+        <label class="field"><span>Sort</span>
+          <select id="sortFilter">
+            <option value="roadmap">Roadmap order</option>
+            <option value="grade">Grade</option>
+            <option value="name">Name</option>
+            <option value="remaining">Remaining first</option>
+          </select>
+        </label>
+        <label class="switch" title="Hide names and descriptions of unearned story trophies">
+          <input type="checkbox" id="spoilerToggle" checked>
+          <span class="switch-track" aria-hidden="true"></span>
+          <span class="switch-label">Spoiler-safe</span>
+        </label>
+      </div>
+      <div class="tb-row tb-row-kinds">
+        <span class="tb-label">Kind</span>
+        <div class="chips" id="kindChips" role="group" aria-label="Filter by kind"></div>
+      </div>
+    </div>
+
+    <div class="checklist-layout">
+      <div class="list-panel">
+        <div class="list-head">
+          <span id="listCount">55 trophies</span>
+          <span class="list-hint">Click a row for the guide &middot; <kbd>e</kbd> toggles earned</span>
+        </div>
+        <div id="trophyList" class="trophy-list" role="list"></div>
+      </div>
+      <aside id="guidePane" class="guide-pane" aria-live="polite"></aside>
+    </div>
+  </section>
+
+  <section class="view" id="view-roadmap" aria-label="Platinum roadmap" hidden>
+    <div class="page-head">
+      <div>
+        <p class="eyebrow">Five stages to the platinum</p>
+        <h2 class="page-title">The roadmap</h2>
+        <p class="page-sub">Built from the official descriptions: story first, then the strands that can close, then counts and cleanup. Your ticks move every stage forward.</p>
+      </div>
+      <div class="page-stat">
+        <span class="page-stat-num" id="roadmapEarned">0</span>
+        <span class="page-stat-label">of 55 earned</span>
+      </div>
+    </div>
+    <div class="stage-rail" id="stageRail"></div>
+    <div id="roadmapStages" class="roadmap-stages"></div>
+  </section>
+
+  <section class="view" id="view-missables" aria-label="Missable trophies" hidden>
+    <div class="page-head">
+      <div>
+        <p class="eyebrow">Do these before the endgame</p>
+        <h2 class="page-title">Missable trophies</h2>
+        <p class="page-sub">Nine trophies hang on content that can close: character finales, a unique hunt and two partner jobs. Clear them while they are still offered.</p>
+      </div>
+      <div class="page-stat">
+        <span class="page-stat-num" id="missableLeft">9</span>
+        <span class="page-stat-label">still to earn</span>
+      </div>
+    </div>
+    <div class="notice">
+      <span class="notice-mark" aria-hidden="true">!</span>
+      <div><strong>Why these first.</strong> The official descriptions do not give expiry dates, so the ordering here is our own reading of how GTA side content usually behaves: character strands and one-off requests are safest done before the story&rsquo;s final act. Each card says why and when.</div>
+    </div>
+    <div class="missable-grid" id="missableGrid"></div>
+  </section>
+
+  <section class="view" id="view-planner" aria-label="Next-up planner" hidden>
+    <div class="page-head">
+      <div>
+        <p class="eyebrow">What to chase next</p>
+        <h2 class="page-title">Next-up planner</h2>
+        <p class="page-sub">Missables first, then the roadmap in order, with counters close to done pulled forward. The list reshuffles as you tick.</p>
+      </div>
+      <div class="page-stat">
+        <span class="page-stat-num" id="plannerLeft">42</span>
+        <span class="page-stat-label">trophies to go</span>
+      </div>
+    </div>
+    <div class="planner-layout">
+      <div class="planner-main">
+        <div class="suggest-hero" id="suggestHero"></div>
+        <div class="queue-head">
+          <h3>Full queue</h3>
+          <span id="queueCount" class="muted"></span>
+        </div>
+        <div class="queue" id="plannerQueue"></div>
+      </div>
+      <aside class="planner-side">
+        <div class="side-card">
+          <h3>Planner settings</h3>
+          <label class="switch switch-row">
+            <input type="checkbox" id="plannerSpoiler" checked>
+            <span class="switch-track" aria-hidden="true"></span>
+            <span class="switch-label">Spoiler-safe names</span>
+          </label>
+          <label class="field field-block"><span>Theme</span>
+            <select id="plannerTheme">
+              <option value="night">Night</option>
+              <option value="midnight">Midnight</option>
+              <option value="parchment">Parchment</option>
+            </select>
+          </label>
+          <p class="side-note">Spoiler-safe hides the names and descriptions of unearned story trophies everywhere in the guide.</p>
+        </div>
+        <div class="side-card">
+          <h3>Stage progress</h3>
+          <div id="plannerStages" class="mini-stages"></div>
+        </div>
+        <div class="side-card">
+          <h3>Closest counters</h3>
+          <div id="closeCounters" class="close-counters"></div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="view" id="view-settings" aria-label="Settings and save data" hidden>
+    <div class="page-head">
+      <div>
+        <p class="eyebrow">Your save, your rules</p>
+        <h2 class="page-title">Settings &amp; save</h2>
+        <p class="page-sub">Everything lives in this browser&rsquo;s localStorage. Export a JSON file to move progress and notes to another machine or keep a backup.</p>
+      </div>
+      <div class="page-stat">
+        <span class="page-stat-num" id="settingsEarned">0</span>
+        <span class="page-stat-label">of 55 earned</span>
+      </div>
+    </div>
+
+    <div class="settings-grid">
+      <div class="settings-card">
+        <h3>Reading</h3>
+        <label class="switch switch-row">
+          <input type="checkbox" id="settingsSpoiler" checked>
+          <span class="switch-track" aria-hidden="true"></span>
+          <span class="switch-label">Spoiler-safe story trophies</span>
+        </label>
+        <p class="card-note">Unearned story trophies show &ldquo;Hidden story trophy&rdquo; instead of their name and description. Earned ones are always visible.</p>
+        <div class="field-block">
+          <span class="field-label">Theme</span>
+          <div class="theme-options" id="themeOptions" role="radiogroup" aria-label="Theme">
+            <button type="button" class="theme-option" data-theme-value="night" role="radio" aria-checked="true"><span class="theme-swatch swatch-night" aria-hidden="true"></span>Night</button>
+            <button type="button" class="theme-option" data-theme-value="midnight" role="radio" aria-checked="false"><span class="theme-swatch swatch-midnight" aria-hidden="true"></span>Midnight</button>
+            <button type="button" class="theme-option" data-theme-value="parchment" role="radio" aria-checked="false"><span class="theme-swatch swatch-parchment" aria-hidden="true"></span>Parchment</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-card">
+        <h3>Save data</h3>
+        <div class="save-actions">
+          <button type="button" class="btn btn-primary" id="exportBtn">Export JSON</button>
+          <label class="btn btn-ghost import-label">Import JSON<input type="file" id="importInput" accept="application/json,.json"></label>
+        </div>
+        <p class="card-note" id="saveSummary">Progress, counters, notes and settings travel together.</p>
+        <div class="save-actions">
+          <button type="button" class="btn btn-danger" id="resetBtn">Reset everything</button>
+        </div>
+        <p class="card-note">Reset clears earned trophies, counters and notes. Export first if you are unsure.</p>
+      </div>
+
+      <div class="settings-card">
+        <h3>Keyboard</h3>
+        <dl class="keys">
+          <div><dt><kbd>/</kbd></dt><dd>Focus search</dd></div>
+          <div><dt><kbd>&uarr;</kbd> <kbd>&darr;</kbd></dt><dd>Move between trophies</dd></div>
+          <div><dt><kbd>e</kbd></dt><dd>Toggle earned on the selected trophy</dd></div>
+          <div><dt><kbd>n</kbd></dt><dd>Jump to the notes box</dd></div>
+          <div><dt><kbd>1</kbd>&ndash;<kbd>5</kbd></dt><dd>Switch sections</dd></div>
+          <div><dt><kbd>?</kbd></dt><dd>Show the shortcut sheet</dd></div>
+          <div><dt><kbd>Esc</kbd></dt><dd>Close a dialog or clear search</dd></div>
+        </dl>
+      </div>
+
+      <div class="settings-card">
+        <h3>Sources &amp; honesty</h3>
+        <p class="card-note">Names, descriptions and grades come from the official list as supplied (Exophase). PSN counters are carried from the supplied PSNProfiles notes. Every route, venue and method in a guide is our own advice read from the official description and has not been checked in the game; where a step is not pinned down, the guide says so.</p>
+        <p class="card-note">No live trophy sites are contacted. The guide makes no requests beyond its own files, so it works offline once loaded.</p>
+        <div class="grade-key" id="gradeKey"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <span>Unofficial fan guide. Grand Theft Auto VI is a trademark of its owner; this page uses no official artwork.</span>
+  <span class="foot-right">55 trophies &middot; offline &middot; your save stays in this browser</span>
+</footer>
+
+<dialog id="shortcutDialog" class="modal">
+  <div class="modal-head">
+    <h2>Keyboard shortcuts</h2>
+    <button type="button" class="icon-btn" data-close-dialog aria-label="Close">&times;</button>
+  </div>
+  <dl class="keys keys-wide">
+    <div><dt><kbd>/</kbd></dt><dd>Focus the search box</dd></div>
+    <div><dt><kbd>&uarr;</kbd> <kbd>&darr;</kbd></dt><dd>Move the selection up or down the visible list</dd></div>
+    <div><dt><kbd>e</kbd></dt><dd>Toggle earned on the selected trophy</dd></div>
+    <div><dt><kbd>n</kbd></dt><dd>Jump to the selected trophy&rsquo;s notes</dd></div>
+    <div><dt><kbd>1</kbd>&ndash;<kbd>5</kbd></dt><dd>Checklist, Roadmap, Missables, Next up, Settings</dd></div>
+    <div><dt><kbd>?</kbd></dt><dd>Open this sheet</dd></div>
+    <div><dt><kbd>Esc</kbd></dt><dd>Close this sheet, or clear the search box</dd></div>
+  </dl>
+  <p class="modal-note">Shortcuts pause while you are typing in a field.</p>
+</dialog>
+
+<dialog id="confirmDialog" class="modal">
+  <div class="modal-head">
+    <h2>Reset everything?</h2>
+    <button type="button" class="icon-btn" data-close-dialog aria-label="Close">&times;</button>
+  </div>
+  <p class="modal-note">This clears every tick, counter and note in this browser. It cannot be undone unless you exported a file.</p>
+  <div class="modal-actions">
+    <button type="button" class="btn btn-ghost" data-close-dialog>Cancel</button>
+    <button type="button" class="btn btn-danger" id="confirmReset">Reset everything</button>
+  </div>
+</dialog>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<noscript><p class="noscript">This guide needs JavaScript to read the trophy list and save your progress.</p></noscript>
 <script type="module" src="app.js"></script>
 </body>
 </html>

@@ -1,5 +1,46 @@
 [
-  { "file": "1-checklist.jpg", "path": "/", "viewport": { "width": 1280, "height": 800 } },
-  { "file": "2-silver.jpg", "path": "/", "grade": "silver", "viewport": { "width": 1280, "height": 800 } },
-  { "file": "3-bronze.jpg", "path": "/", "grade": "bronze", "scroll": 1400, "viewport": { "width": 1280, "height": 800 } }
+  {
+    "file": "1-checklist.jpg",
+    "view": "checklist",
+    "title": "Checklist with the guide pane open",
+    "description": "All 55 trophies with kind, grade and status filters, spoiler-safe on, and the guide for a trophy open beside the list with its sources line.",
+    "seed": "13 of 55 earned (story mix), counters part-way",
+    "viewport": {
+      "width": 1280,
+      "height": 800
+    }
+  },
+  {
+    "file": "2-roadmap.jpg",
+    "view": "roadmap",
+    "title": "Five-stage platinum roadmap",
+    "description": "Story, missables, counts, activities and cleanup, each stage showing its own earned progress.",
+    "seed": "13 of 55 earned (story mix), counters part-way",
+    "viewport": {
+      "width": 1280,
+      "height": 800
+    }
+  },
+  {
+    "file": "3-missables.jpg",
+    "view": "missables",
+    "title": "Missable trophies",
+    "description": "Every missable trophy with why it can be missed and when to do it, plus a mark-earned control.",
+    "seed": "13 of 55 earned (story mix), counters part-way",
+    "viewport": {
+      "width": 1280,
+      "height": 800
+    }
+  },
+  {
+    "file": "4-planner.jpg",
+    "view": "planner",
+    "title": "Next-up planner",
+    "description": "The next trophy to chase, the full queue ordered missables first, stage progress and the closest counters.",
+    "seed": "13 of 55 earned (story mix), counters part-way",
+    "viewport": {
+      "width": 1280,
+      "height": 800
+    }
+  }
 ]
