@@ -138,6 +138,8 @@ a { color: var(--accent); }
   text-transform: uppercase;
   color: var(--muted-2);
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .headline { display: flex; align-items: center; gap: 16px; }
@@ -769,6 +771,8 @@ html[data-theme='parchment'] .btn-primary { color: #fff8f0; }
 .qrow-sub { font-size: 11px; color: var(--muted-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .qrow-why { font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--warn); white-space: nowrap; }
 .qrow-why.is-clean { color: var(--muted-2); }
+
+.srow-desc, .qrow-sub { margin-left: 8px; }
 
 .side-card {
   border: 1px solid var(--line-soft);
